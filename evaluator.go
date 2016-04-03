@@ -207,7 +207,7 @@ func logBotsStdErr(bot1 player_settings, bot2 player_settings) {
 	bot2err := bufio.NewReader(bot2.stderr)
 	var wg sync.WaitGroup
 	wg.Add(2)
-	merged := make(chan string)
+	merged := make(chan string, 10)
 	go logReader(bot1.player_name + " log: ", bot1err, merged, wg)
 	go logReader(bot2.player_name + " log: ", bot2err, merged, wg)
 
