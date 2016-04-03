@@ -135,7 +135,10 @@ func (s *State) GetResult(playerJustMoved int8) float64 {
 
 func (s *State) DoMove(m *Move) {
 	if s.Field[m.Row][m.Col] != 0 {
-		log.Println("DoMove error, move at row %d, col %d is already %d", m.Row, m.Col, s.Field[m.Row][m.Col])
+		log.Fatalf("DoMove error, move at row %d, col %d is already %d", m.Row, m.Col, s.Field[m.Row][m.Col])
+	}
+	if s.MacroBoard[m.Row/3][m.Col/3] != -1 {
+		log.Fatalf("DoMove error, move at row %d, col %d is not a legal move", m.Row, m.Col)
 	}
 
 	if s.PlayerJustMoved == 1 {
