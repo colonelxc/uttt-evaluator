@@ -38,12 +38,14 @@ var game_state game_state_t
 type flags_t struct {
 	Player1	*string
 	Player2 *string
+	NoTime *bool
 }
 var flags flags_t
 
 func parseFlags() {
 	flags.Player1 = flag.String("player1", "", "Path to the player 1 bot")
 	flags.Player2 = flag.String("player2", "", "Path to the player 2 bot")
+	flags.NoTime = flag.Bool("NoTime", false, "Disable time tracking")
 	flag.Parse()
 
 	if *flags.Player1 == "" || *flags.Player2 == "" {
@@ -187,7 +189,10 @@ func getMove(player *player_settings) (*Move) {
 	io.WriteString(player.stdin, fmt.Sprintf("action move %d\n", toMs(player.timebank)))
 	start_time := time.Now()
 	line, err := player.stdout.ReadString('\n')
-	elapsed := time.Since(start_time)
+	var elapsed time.Duration
+	if ! *flags.NoTime {
+		elapsed = time.Since(start_time)
+	}
 	if elapsed > player.timebank {
 		log.Fatalf("Sorry, too slow %s", player.player_name)
 	}
