@@ -140,7 +140,7 @@ func sendSettings(player player_settings) {
 }
 
 func toMs(d time.Duration) int64 {
-	return d.Nanoseconds() / 1000
+	return int64(d / time.Millisecond)
 }
 
 func sendState(player *player_settings) {
