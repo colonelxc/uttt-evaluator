@@ -180,23 +180,24 @@ func (s *State) DoMove(m *Move) {
 		if s.GameFinished > 0 {
 			return
 		}
-	}
+	} else {
 
-	// Find out if this board is now dead
-	dead := true
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			if s.Field[sub_row+i][sub_col+j] == 0 {
-				dead = false
+		// Find out if this board is now dead
+		dead := true
+		for i := 0; i < 3; i++ {
+			for j := 0; j < 3; j++ {
+				if s.Field[sub_row+i][sub_col+j] == 0 {
+					dead = false
+					break
+				}
+			}
+			if dead == false {
 				break
 			}
 		}
-		if dead == false {
-			break
+		if dead {
+			s.MacroBoard[macro_row][macro_col] = 9
 		}
-	}
-	if dead {
-		s.MacroBoard[macro_row][macro_col] = 9
 	}
 
 
